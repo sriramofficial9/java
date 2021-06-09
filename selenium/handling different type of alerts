@@ -1,1 +1,130 @@
+package project;
 
+import java.util.Scanner;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class alertHandleProject {
+
+	static WebDriver driver = null;
+	String url;
+
+	public void invokeBrowser() {
+		System.out.println("Enter the browser name");
+
+		// getting the browser input from user
+		Scanner sc = new Scanner(System.in);
+		String browserType = sc.nextLine();
+
+		// launching chrome browser for automation
+
+		if (browserType.equalsIgnoreCase("chrome")) {
+			System.setProperty("webdriver.chrome.driver",
+					"C:\\Users\\Dell\\eclipse-workspace\\selenium\\drivers\\chromedriver.exe");
+			driver = new ChromeDriver();
+		}
+
+		// launching firefox driver for automation
+
+		else if (browserType.equalsIgnoreCase("firefox")) {
+			System.setProperty("webdriver.gecko.driver",
+					"C:\\Users\\Dell\\eclipse-workspace\\selenium\\drivers\\geckodriver.exe");
+			driver = new FirefoxDriver();
+		} else {
+
+			System.setProperty("webdriver.edge.driver",
+					"C:\\Users\\Dell\\eclipse-workspace\\selenium\\drivers\\IEDriverServer.exe");
+			driver = new EdgeDriver();
+		}
+
+	}
+
+	// Getting the url to be automated
+	public void getUrl() {
+		String url = " http://cookbook.seleniumacademy.com/Alerts.html ";
+
+		driver.get(url);
+		// maximizing the window
+		driver.manage().window().maximize();
+
+	}
+
+	public void handlingDifferentAlerts() throws InterruptedException {
+		// driver.get(url);
+		Thread.sleep(2000);
+		// Proceeding with the handle of alerts
+		driver.findElement(By.id("simple")).click();
+		Thread.sleep(1000);
+
+		// swithcing to the alert window
+		Alert alert = driver.switchTo().alert();
+		String alertmessage = driver.switchTo().alert().getText();
+		if (alertmessage.equals("Hello! I am an alert box!")) {
+			System.out.println(" First Alert message is true");
+		} else
+			System.out.println(" Alert message is false");
+		Thread.sleep(2000);
+
+		// accepting the alert window
+		alert.accept();
+		Thread.sleep(2000);
+
+		// confirming the alert
+		driver.findElement(By.id("confirm")).click();
+		Thread.sleep(2000);
+
+		// Switching to the second alert
+		String alertMessage2 = driver.switchTo().alert().getText();
+		Thread.sleep(1000);
+		if (alertMessage2.equals("Press a button!")) {
+			System.out.println(" Second Alert message is true");
+
+			// Dismisssig the alert
+			alert.dismiss();
+		} else
+			System.out.println("Alert message is false");
+
+	}
+
+	public void handlingPromptAlert() throws InterruptedException {
+
+		// switching to the promot window
+		driver.findElement(By.id("prompt")).click();
+		Alert promptAlert = driver.switchTo().alert();
+		Thread.sleep(2000);
+
+		// Getting the text of the prompt window
+		String promptText = driver.switchTo().alert().getText();
+		Thread.sleep(1000);
+
+		// entering the text inthe prompt window
+		promptAlert.sendKeys("Sreehari");
+		Thread.sleep(2000);
+
+		// Accepting the alert after entering the text in the prompt alert
+		promptAlert.accept();
+		Thread.sleep(2000);
+	}
+
+	public void closeBrowser() {
+
+		// closing the browser
+		driver.close();
+
+	}
+
+	public static void main(String a[]) throws InterruptedException {
+
+		alertHandleProject alerts = new alertHandleProject();
+		alerts.invokeBrowser(); // calls the broswer in which code website should be automated
+		alerts.getUrl(); // Getting the url to be automated
+		alerts.handlingDifferentAlerts(); // handling different type of alerts in this window
+		alerts.handlingPromptAlert(); // handling the promptAlert
+		alerts.closeBrowser(); // closing the browser
+	}
+}
