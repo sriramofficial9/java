@@ -6,6 +6,8 @@ chrome driver- version 88 and greater
 gecko driver-v0.29.0
 
 
+website automated:http://cookbook.seleniumacademy.com/Alerts.html 
+
 steps for the execution:
 1.save the project code
 2.run the code in the eclipse
